@@ -1,5 +1,8 @@
 package com.g2.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,10 +34,30 @@ public class ExampleController {
         mav.addObject("name", "exampleMAV");
         return mav;
     }
-    
+
     @GetMapping("/person")
     public String person(Model model) {
         model.addAttribute("person", new Person("Hector", 36));
         return EXAMPLE_VIEW;
     }
+
+    @GetMapping("/people")
+    public ModelAndView people() {
+        ModelAndView mav = new ModelAndView(EXAMPLE_VIEW);
+        mav.addObject("name", "people");
+        mav.addObject("person", new Person("Hector", 36));
+        mav.addObject("people", getPeople());
+        return mav;
+    }
+
+    private List<Person> getPeople() {
+        List<Person> people = new ArrayList<>();
+        people.add(new Person("Hector", 36));
+        people.add(new Person("Eduardo", 26));
+        people.add(new Person("Garcia", 16));
+        people.add(new Person("Picon", 46));
+
+        return people;
+    }
+
 }

@@ -7,7 +7,24 @@
 <body>
 	<h1>Hello World!!</h1>
 	<span th:text="${name}"></span>
-	
-	<span th:text="${person.name}"></span> your age is <span th:text="${person.age}"></span>
+
+	<span th:text="${person.name}"></span> your age is
+	<span th:text="${person.age}"></span>
+
+	<h1>Lista de personas</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>NAME</th>
+				<th>AGE</th>
+			</tr>
+		</thead>
+		<tbody th:each="person : ${people}">
+			<tr>
+				<th th:text="${person.name}"></th>
+				<th th:text="${person.age}"></th>
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>
