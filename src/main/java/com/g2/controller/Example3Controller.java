@@ -1,5 +1,7 @@
 package com.g2.controller;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,8 @@ import com.g2.model.Person;
 @Controller
 @RequestMapping("/example3")
 public class Example3Controller {
+    
+    private static final Log LOGGER = LogFactory.getLog(Example3Controller.class);
 
     private static final String FORM_VIEW = "form";
     private static final String RESULT_VIEW = "result";
@@ -37,8 +41,11 @@ public class Example3Controller {
     
     @GetMapping("/showform")
     public String showForm(Model model) {
-        model.addAttribute("person", new Person());
-        int s = 2/0;
+        LOGGER.info("INFO");
+        LOGGER.warn("WARNING");
+        LOGGER.error("ERROR");
+        LOGGER.debug("DEBUG");
+        model.addAttribute("person", new Person()); 
         return FORM_VIEW;
 
     }

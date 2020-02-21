@@ -3,12 +3,15 @@ package com.g2.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.g2.component.ExampleComponent;
 import com.g2.model.Person;
 
 @Controller
@@ -16,6 +19,10 @@ import com.g2.model.Person;
 public class ExampleController {
 
     public static final String EXAMPLE_VIEW = "example";
+    
+    @Autowired  // indica a spring que vamos a inyectar un componente que esta en su memoria
+    @Qualifier("exampleComponent")   // indica a sprint el nombre del bean que esta en su memoria
+    private ExampleComponent exampleComponent;
 
     // primera forma
     // la usamos cuando los datos que se le pasan a la vista son pocos o ninguno
@@ -47,6 +54,7 @@ public class ExampleController {
         mav.addObject("name", "people");
         mav.addObject("person", new Person("Hector", 36));
         mav.addObject("people", getPeople());
+        exampleComponent.sayHello();
         return mav;
     }
 
