@@ -1,8 +1,5 @@
 package com.g2.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -13,15 +10,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.g2.component.ExampleComponent;
 import com.g2.model.Person;
+import com.g2.service.ExampleService;
 
 @Controller
 @RequestMapping("/example")
 public class ExampleController {
 
     public static final String EXAMPLE_VIEW = "example";
-    
-    @Autowired  // indica a spring que vamos a inyectar un componente que esta en su memoria
-    @Qualifier("exampleComponent")   // indica a sprint el nombre del bean que esta en su memoria
+
+    @Autowired
+    @Qualifier("exampleService")
+    private ExampleService exampleService;
+
+    @Autowired // indica a spring que vamos a inyectar un componente que esta en su memoria
+    @Qualifier("exampleComponent") // indica a sprint el nombre del bean que esta en su memoria
     private ExampleComponent exampleComponent;
 
     // primera forma
@@ -30,6 +32,8 @@ public class ExampleController {
     @GetMapping("/exampleString")
     public String exampleString(Model model) {
         model.addAttribute("name", "exampleString");
+        model.addAttribute("person", new Person("Hector", 36));
+        model.addAttribute("people", exampleService.getListPeople());
         return EXAMPLE_VIEW;
     }
 
@@ -39,6 +43,8 @@ public class ExampleController {
     public ModelAndView exampleMAV() {
         ModelAndView mav = new ModelAndView(EXAMPLE_VIEW);
         mav.addObject("name", "exampleMAV");
+        mav.addObject("person", new Person("Hector", 36));
+        mav.addObject("people", exampleService.getListPeople());
         return mav;
     }
 
@@ -53,19 +59,9 @@ public class ExampleController {
         ModelAndView mav = new ModelAndView(EXAMPLE_VIEW);
         mav.addObject("name", "people");
         mav.addObject("person", new Person("Hector", 36));
-        mav.addObject("people", getPeople());
+        mav.addObject("people", exampleService.getListPeople());
         exampleComponent.sayHello();
         return mav;
-    }
-
-    private List<Person> getPeople() {
-        List<Person> people = new ArrayList<>();
-        people.add(new Person("Hector", 36));
-        people.add(new Person("Eduardo", 26));
-        people.add(new Person("Garcia", 16));
-        people.add(new Person("Picon", 46));
-
-        return people;
     }
 
 }
